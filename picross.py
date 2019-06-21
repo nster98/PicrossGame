@@ -26,7 +26,8 @@ def makeArrayFromBoard(image, width, height):
     
     return pixel_values
 
-def getHints(board, line):
+
+def getHintsHorizontal(board, line):
 	
 	hintArr = []
 
@@ -44,6 +45,24 @@ def getHints(board, line):
 
 	return hintArr
 
+def getHintsVertical(board, line):
+	
+	hintArr = []
+
+	count = 0
+	for j in range(len(board[line])):
+		
+		if (board[j][line][0] == 0):
+			count += 1
+		elif (count != 0):
+			hintArr.append(count)
+			count = 0
+	
+	if (count != 0):
+		hintArr.append(count)
+
+	return hintArr
+
 def main():
     
 	image = Image.open('board.png', 'r')
@@ -51,9 +70,12 @@ def main():
 	width, height = image.size
 	board = makeArrayFromBoard(image, width, height)
 
-	hints = [0] * width
+	hints = [0] * (width + height)
 	for i in range(len(board)):
-		hints[i] = getHints(board, i)
+		hints[i] = getHintsHorizontal(board, i)
+
+	for j in range(len(board)):
+		hints[width + j] = getHintsVertical(board, j)
 
 	print(hints)
 
