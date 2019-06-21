@@ -8,9 +8,8 @@ from PIL import Image
 import numpy as np
 
 
-def makeArrayFromBoard(image):
+def makeArrayFromBoard(image, width, height):
 
-    width, height = image.size
     pixel_values = list(image.getdata())
     
     if image.mode == 'RGBA':
@@ -29,11 +28,39 @@ def makeArrayFromBoard(image):
 
     return pixel_values
 
+def getHints(board, line):
+	
+	hintArr = []
+
+	count = 0
+	for j in range(len(board[line])):
+		
+		if (board[line][j][0] == 0):
+			count += 1
+		elif (count != 0):
+			hintArr.append(count)
+			count = 0
+	
+	return hintArr
+
 def main():
     
-    image = Image.open('board.png', 'r')
+	image = Image.open('board.png', 'r')
 
-    makeArrayFromBoard(image)
+	width, height = image.size
+	board = makeArrayFromBoard(image, width, height)
+	
+	#for i in range(len(board)):
+	#	for j in range(len(board[i])):
+	#		print(board[i][j][0])
+
+	hints = [0] * width
+	print(width)
+	for i in range(len(board)):
+		for x in range(width):
+			hints[x] = getHints(board, i)
+
+	print(hints)
 
 if __name__== '__main__': main()
 
