@@ -24,8 +24,6 @@ def makeArrayFromBoard(image, width, height):
 
     pixel_values = np.array(pixel_values).reshape((width, height, channels))
     
-    print("We got here  boys")
-
     return pixel_values
 
 def getHints(board, line):
@@ -41,6 +39,9 @@ def getHints(board, line):
 			hintArr.append(count)
 			count = 0
 	
+	if (count != 0):
+		hintArr.append(count)
+
 	return hintArr
 
 def main():
@@ -49,16 +50,10 @@ def main():
 
 	width, height = image.size
 	board = makeArrayFromBoard(image, width, height)
-	
-	#for i in range(len(board)):
-	#	for j in range(len(board[i])):
-	#		print(board[i][j][0])
 
 	hints = [0] * width
-	print(width)
 	for i in range(len(board)):
-		for x in range(width):
-			hints[x] = getHints(board, i)
+		hints[i] = getHints(board, i)
 
 	print(hints)
 
