@@ -56,6 +56,8 @@ def make2dArray(arr, w, h):
     
     return newArr
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 board = []
 grid = []
 hints = []
@@ -68,7 +70,7 @@ def setup():
     
     global hints, board, grid, _width, _height
     
-    image = loadImage("../board.png")
+    image = loadImage("../bird.png")
     _width, _height = image.width, image.height
     
     board = makeBoard(image, _width, _height)
@@ -129,13 +131,13 @@ def mousePressed():
     global board, grid, _width, _height
     w, h = _width*3, _height*3
     
-    if (mouseButton == LEFT):
+    if (mouseButton == LEFT and mouseX < w * _width and mouseY < h * _height):
         if (grid[int(mouseY/h)][int(mouseX/w)] == 2):
             grid[int(mouseY/h)][int(mouseX/w)] = 1
         else:
             grid[int(mouseY/h)][int(mouseX/w)] *= -1
         
-    if (mouseButton == RIGHT):
+    if (mouseButton == RIGHT and mouseX < w * _width and mouseY < h * _height):
         if (grid[int(mouseY/h)][int(mouseX/w)] != 2):
             grid[int(mouseY/h)][int(mouseX/w)] = 2
         else:
