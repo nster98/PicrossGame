@@ -45,7 +45,7 @@ def getHintsVertical(board, i):
     return hintsArr
 
 def make2dArray(arr, w, h):
-    newArr = [[0] * w for i in range(w)]
+    newArr = [[0] * w for i in range(h)]
     k = 0
     
     for i in range(w):
@@ -56,15 +56,25 @@ def make2dArray(arr, w, h):
     
     return newArr
 
+board = []
+grid = []
+hints = []
+_width = 0
+_height = 0
+
 def setup():
     
     size(1200,800)
+    
+    global hints, board, grid, _width, _height
     
     image = loadImage("../board.png")
     _width, _height = image.width, image.height
     
     board = makeBoard(image, _width, _height)
     board = make2dArray(board, _width, _height)
+
+    grid = [[1] * _width for i in range(_height)]
     
     hints = [0] * (_width + _height)
     
@@ -74,7 +84,59 @@ def setup():
         hints[_width + i] = getHintsVertical(board, i)
         
     print hints
+    
             
+def draw():
     
-#def draw():
+    global hints, board, grid, _width, _height
+    w, h = _width*3, _height*3
     
+    x, y = 0, 0
+    for row in grid:
+        for col in row:
+            if col == -1:
+                fill(0)
+            elif col == 2:
+                fill(255,165,0)
+            else:
+                fill(255)
+            rect(x, y, w, h)
+            x = x + w
+        y = y + h
+        x = 0
+
+    textX, textY = w * _width + 5, h - 10
+    fill(0)
+    textSize(32)
+    for i in range(len(hints) / 2):
+        for j in range(len(hints[i])):
+            text(hints[i][j], textX, textY)
+            textX += 30
+        textX = w * _width + 5
+        textY += h
+
+    textX, textY = 10, h * _height + 30
+    for i in range(len(hints) / 2):
+        for j in range(len(hints[i + _width])):
+            text(hints[i + _width][j], textX, textY)
+            textY += 30
+        textY = h * _height + 30
+        textX += w
+     
+        
+def mousePressed():
+    
+    global board, grid, _width, _height
+    w, h = _width*3, _height*3
+    
+    if (mouseButton == LEFT):
+        if (grid[int(mouseY/h)][int(mouseX/w)] == 2):
+            grid[int(mouseY/h)][int(mouseX/w)] = 1
+        else:
+            grid[int(mouseY/h)][int(mouseX/w)] *= -1
+        
+    if (mouseButton == RIGHT):
+        if (grid[int(mouseY/h)][int(mouseX/w)] != 2):
+            grid[int(mouseY/h)][int(mouseX/w)] = 2
+        else:
+            grid[int(mouseY/h)][int(mouseX/w)] = 1
