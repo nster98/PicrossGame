@@ -9,13 +9,15 @@ hints = []
 _width = 0
 _height = 0
 
+translateAmount = 400
+
 def setup():
     
     size(1200,800)
     
     global hints, board, grid, _width, _height
     
-    image = loadImage("../bird.png")
+    image = loadImage("../pictures/bird.png")
     _width, _height = image.width, image.height
     
     board = PicrossTools.makeBoard(image, _width, _height)
@@ -27,10 +29,11 @@ def setup():
     
     for i in range(len(board)):
         hints[i] = PicrossTools.getHintsHorizontal(board, i)
-    for i in range(len(board)):
-        hints[_width + i] = PicrossTools.getHintsVertical(board, i)
+    count = 0
+    for i in range(len(board[0])):
+        hints[_height + count] = PicrossTools.getHintsVertical(board, i)
+        count += 1
     
-    print board
     print hints
     
             
@@ -38,7 +41,9 @@ def draw():
     
     # Active square: -1
     
-    global hints, board, grid, _width, _height
+    global hints, board, grid, _width, _height, translateAmount
+    
+    translate(translateAmount, 0)
     w, h = _width*3, _height*3
     
     x, y = 0, 0
@@ -69,8 +74,8 @@ def draw():
 
     textX, textY = 10, h * _height + 30
     for i in range(len(hints) / 2):
-        for j in range(len(hints[i + _width])):
-            text(hints[i + _width][j], textX, textY)
+        for j in range(len(hints[i + _height])):
+            text(hints[i + _height][j], textX, textY)
             textY += 30
         textY = h * _height + 30
         textX += w

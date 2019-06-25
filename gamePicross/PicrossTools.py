@@ -12,7 +12,7 @@ def makeBoard(img, w, h):
     
     for x in range(w * h):
         boardArr.append(img.pixels[x])
-        
+    
     return boardArr
 
 def getHintsHorizontal(board, i):
@@ -36,7 +36,7 @@ def getHintsVertical(board, i):
     hintsArr = []
     count = 0
     
-    for j in range(len(board[i])):
+    for j in range(len(board)):
         if (board[j][i] != -1):
             count += 1
         elif (count != 0):
@@ -52,8 +52,8 @@ def make2dArray(arr, w, h):
     newArr = [[0] * w for i in range(h)]
     k = 0
     
-    for i in range(w):
-        for j in range(h):
+    for i in range(h):
+        for j in range(w):
             if (k < len(arr)):
                 newArr[i][j] = arr[k]
                 k += 1
