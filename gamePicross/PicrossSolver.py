@@ -22,3 +22,12 @@ def solve(grid, hints):
         x += 1
         
     return grid
+
+def instantSolve(board, grid):
+    
+    for x in range(len(board)):
+        for y in range(len(board[x])):
+            if board[x][y] != -1:
+                grid[x][y] = -1
+                
+    return grid

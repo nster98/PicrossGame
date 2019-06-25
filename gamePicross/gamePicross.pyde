@@ -29,7 +29,8 @@ def setup():
         hints[i] = PicrossTools.getHintsHorizontal(board, i)
     for i in range(len(board)):
         hints[_width + i] = PicrossTools.getHintsVertical(board, i)
-        
+    
+    print board
     print hints
     
             
@@ -43,13 +44,15 @@ def draw():
     x, y = 0, 0
     for row in grid:
         for col in row:
+            fill(255)
+            rect(x, y, w, h)
             if col == -1:
                 fill(0)
             elif col == 2:
                 fill(255,165,0)
             else:
                 fill(255)
-            rect(x, y, w, h)
+            rect(x+2, y+2, w-4, h-4)
             x = x + w
         y = y + h
         x = 0
@@ -72,8 +75,8 @@ def draw():
         textY = h * _height + 30
         textX += w
     
-    #solve(grid, hints)
-    
+    #grid = PicrossSolver.instantSolve(board, grid)
+    #grid = PicrossSolver.solve(grid, hints)
     
 def mousePressed():
     
@@ -91,16 +94,3 @@ def mousePressed():
             grid[int(mouseY/h)][int(mouseX/w)] = 2
         else:
             grid[int(mouseY/h)][int(mouseX/w)] = 1
-
-def solve(grid, hints):
-    
-    x, y = 0, 0
-    grid[x][y] = -1
-    for i in range(len(hints) / 2):
-        for j in range(len(hints[i])):
-            for times in range(hints[i][j]):
-                grid[x][y] = -1
-                y += 1
-            y += 1
-        y = 0
-        x += 1
